@@ -9,7 +9,7 @@ from models import db, User, Goal, AuditLog
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:pict12345@localhost/goaltracker'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///goaltracker.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key = "goaltracker123"
@@ -903,5 +903,4 @@ def export_report():
 # ====================================================
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=5000)
