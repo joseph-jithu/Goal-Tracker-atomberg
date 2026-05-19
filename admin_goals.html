@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <h2 class="mb-4 text-center">
+        Admin Dashboard
+    </h2>
+
+    <!-- DASHBOARD CARDS -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+
+                    <h5>Total Goals</h5>
+
+                    <h2>{{ total_goals }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+
+                    <h5>Approved</h5>
+
+                    <h2 class="text-success">
+                        {{ approved_goals }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+
+                    <h5>Pending</h5>
+
+                    <h2 class="text-warning">
+                        {{ pending_goals }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+
+                    <h5>Completion %</h5>
+
+                    <h2 class="text-primary">
+                        {{ completion_percentage }}%
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- FLASH MESSAGES -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <!-- ACTION BUTTONS -->
+
+    <div class="mb-3">
+
+        <a href="/audit-logs"
+           class="btn btn-dark">
+
+            View Audit Logs
+
+        </a>
+
+        <a href="/export-report"
+           class="btn btn-success">
+
+            Export CSV Report
+
+        </a>
+
+        <a href="/logout"
+           class="btn btn-danger">
+
+            Logout
+
+        </a>
+
+    </div>
+
+    <!-- GOALS TABLE -->
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Goal</th>
+                        <th>Employee</th>
+                        <th>Approval</th>
+                        <th>Lock Status</th>
+                        <th>Achievement</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for goal in goals %}
+
+                    <tr>
+
+                        <td>{{ goal.id }}</td>
+
+                        <td>{{ goal.title }}</td>
+
+                        <td>{{ goal.employee_id }}</td>
+
+                        <td>
+
+                            {% if goal.approval_status == "Approved" %}
+
+                                <span class="badge bg-success">
+                                    Approved
+                                </span>
+
+                            {% elif goal.approval_status == "Rejected" %}
+
+                                <span class="badge bg-danger">
+                                    Rejected
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+                                    Pending
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if goal.is_locked %}
+
+                                <span class="badge bg-danger">
+                                    Locked
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-success">
+                                    Unlocked
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ goal.actual_value }}
+                        </td>
+
+                        <td>
+
+                            {% if goal.is_locked %}
+
+                                <a href="/unlock-goal/{{ goal.id }}"
+                                   class="btn btn-warning btn-sm">
+
+                                    Unlock Goal
+
+                                </a>
+
+                            {% else %}
+
+                                <button class="btn btn-secondary btn-sm"
+                                        disabled>
+
+                                    Already Unlocked
+
+                                </button>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,500 @@
+# Updated `login.html`
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Goal Tracker Login</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+        body{
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            font-family: Arial, sans-serif;
+        }
+
+        .login-card{
+            background: rgba(255,255,255,0.95);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .login-card:hover{
+            transform: scale(1.01);
+            transition: 0.3s;
+        }
+
+        .btn-custom{
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border: none;
+        }
+
+        .btn-custom:hover{
+            opacity: 0.9;
+            transform: translateY(-2px);
+            transition: 0.2s;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+
+    <div class="login-card col-md-4">
+
+        <h2 class="text-center mb-4 text-primary">
+            Goal Tracking System
+        </h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <label>Password</label>
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       required>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-custom w-100">
+                Login
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+```
+
+---
+
+# Updated `employee_dashboard.html`
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+        body{
+            background: linear-gradient(to right, #eef2ff, #f8fbff);
+        }
+
+        .card:hover{
+            transform: translateY(-5px);
+            transition: 0.3s;
+        }
+
+        .dashboard-card{
+            border-radius: 20px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark shadow">
+    <div class="container-fluid">
+        <span class="navbar-brand">Employee Goal Tracker</span>
+
+        <a href="/logout" class="btn btn-danger">
+            Logout
+        </a>
+    </div>
+</nav>
+
+<div class="container mt-5">
+
+    <h2 class="mb-4 text-primary">
+        Welcome {{ session['name'] }}
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary shadow-lg p-3">
+                <h4>Create Goals</h4>
+                <p>Create and manage your KPI goals.</p>
+
+                <a href="/create-goal"
+                   class="btn btn-light">
+                    Open
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-success shadow-lg p-3">
+                <h4>View Goals</h4>
+                <p>Track your progress and achievements.</p>
+
+                <a href="/view-goals"
+                   class="btn btn-light">
+                    Open
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-warning shadow-lg p-3">
+                <h4>Performance</h4>
+                <p>Monitor completion and scores.</p>
+
+                <a href="/view-goals"
+                   class="btn btn-light">
+                    Open
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+```
+
+---
+
+# Updated `manager_dashboard.html`
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manager Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+        body{
+            background: linear-gradient(to right, #f8fbff, #eef2ff);
+        }
+
+        .card:hover{
+            transform: scale(1.03);
+            transition: 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark shadow">
+    <div class="container-fluid">
+
+        <span class="navbar-brand">
+            Manager Dashboard
+        </span>
+
+        <a href="/logout"
+           class="btn btn-danger">
+            Logout
+        </a>
+
+    </div>
+</nav>
+
+<div class="container mt-5">
+
+    <h2 class="mb-4 text-primary">
+        Welcome Manager {{ session['name'] }}
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+            <div class="card bg-primary text-white shadow-lg rounded-4 p-4">
+
+                <h3>Manage Employee Goals</h3>
+
+                <p>
+                    Review, approve, reject and monitor employee goals.
+                </p>
+
+                <a href="/manager/goals"
+                   class="btn btn-light">
+                    Open Goals
+                </a>
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card bg-success text-white shadow-lg rounded-4 p-4">
+
+                <h3>Create Shared Goals</h3>
+
+                <p>
+                    Assign common goals across employees.
+                </p>
+
+                <a href="/create-shared-goal"
+                   class="btn btn-light">
+                    Create
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+```
+
+---
+
+# Updated `view_goals.html`
+
+```html
+<!-- Keep your existing logic exactly same -->
+<!-- ONLY add these style improvements -->
+
+<style>
+
+body{
+    background: linear-gradient(to right, #eef2ff, #f8fbff);
+}
+
+.card{
+    border-radius: 20px;
+}
+
+.card:hover{
+    transform: scale(1.01);
+    transition: 0.3s;
+}
+
+.table-hover tbody tr:hover{
+    background-color: #f1f5ff;
+}
+
+.btn:hover{
+    transform: translateY(-2px);
+    transition: 0.2s;
+}
+
+.progress{
+    height: 25px;
+    border-radius: 20px;
+}
+
+.progress-bar{
+    font-weight: bold;
+}
+
+</style>
+```
+
+Replace your progress bar with:
+
+```html
+<div class="progress">
+
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+         role="progressbar"
+         style="width: {{ progress }}%">
+
+        {{ progress }}%
+
+    </div>
+
+</div>
+```
+
+Replace:
+
+```html
+<div class="card shadow">
+```
+
+with:
+
+```html
+<div class="card shadow-lg rounded-4 border-0">
+```
+
+---
+
+# Updated `manager_goals.html`
+
+```html
+<!-- Add this inside <head> -->
+
+<style>
+
+body{
+    background: linear-gradient(to right, #eef2ff, #f8fbff);
+}
+
+.card{
+    border-radius: 20px;
+}
+
+.card:hover{
+    transform: scale(1.01);
+    transition: 0.3s;
+}
+
+.table-hover tbody tr:hover{
+    background-color: #f1f5ff;
+}
+
+.btn:hover{
+    transform: translateY(-2px);
+    transition: 0.2s;
+}
+
+</style>
+```
+
+Replace:
+
+```html
+<div class="card shadow">
+```
+
+with:
+
+```html
+<div class="card shadow-lg rounded-4 border-0">
+```
+
+Replace:
+
+```html
+<table class="table table-bordered table-hover">
+```
+
+with:
+
+```html
+<table class="table table-striped table-hover align-middle">
+```
+
+---
+
+# Updated `admin_goals.html`
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+
+        body{
+            background: linear-gradient(to right, #eef2ff, #f8fbff);
+        }
+
+        .stat-card{
+            border-radius: 20px;
+            color: white;
+        }
+
+        .stat-card:hover{
+            transform: translateY(-5px);
+            transition: 0.3s;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark shadow">
+    <div class="container-fluid">
+
+        <span class="navbar-brand">
+            Admin Dashboard
+        </span>
+
+        <a href="/logout" class="btn btn-danger">
+            Logout
+        </a>
+
+    </div>
+</nav>
+
+<div class="container mt-5">
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-3">
+            <div class="card stat-card bg-primary shadow-lg p-3">
+                <h5>Total Goals</h5>
+                <h2>{{ total_goals }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card stat-card bg-success shadow-lg p-3">
+                <h5>Approved</h5>
+                <h2>{{ approved_goals }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card stat-card bg-warning shadow-lg p-3">
+                <h5>Pending</h5>
+                <h2>{{ pending_goals }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card stat-card bg-danger shadow-lg p-3">
+                <h5>Completed</h5>
+                <h2>{{ completed_goals }}</h2>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+```
