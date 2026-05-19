@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Update Achievement</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow border-0">
+
+        <div class="card-body p-4">
+
+            <h2 class="mb-4">
+                Update Achievement
+            </h2>
+
+            <form method="POST">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Actual Achievement
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           name="actual_value"
+                           class="form-control"
+                           value="{{ goal.actual_value }}"
+                           required>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Quarter
+                    </label>
+
+                    <select name="quarter"
+                            class="form-control">
+
+                        <option>Q1</option>
+                        <option>Q2</option>
+                        <option>Q3</option>
+                        <option>Q4</option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Check-in Comment
+                    </label>
+
+                    <textarea name="checkin_comment"
+                              class="form-control"
+                              rows="4"></textarea>
+
+                </div>
+
+                <button type="submit"
+                        class="btn btn-success">
+
+                    Save Update
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

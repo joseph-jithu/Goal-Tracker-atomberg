@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+        }
+
+        .dashboard-card{
+            border-radius: 20px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark shadow">
+    <div class="container-fluid">
+        <span class="navbar-brand">Employee Goal Tracker</span>
+
+        <a href="/logout" class="btn btn-danger">
+            Logout
+        </a>
+    </div>
+</nav>
+
+<div class="container mt-5">
+
+    <h2 class="mb-4 text-primary">
+        Welcome {{ session['name'] }}
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary shadow-lg p-3">
+                <h4>Create Goals</h4>
+                <p>Create and manage your KPI goals.</p>
+
+                <a href="/create-goal"
+                   class="btn btn-light">
+                    Open
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-success shadow-lg p-3">
+                <h4>View Goals</h4>
+                <p>Track your progress and achievements.</p>
+
+                <a href="/view-goals"
+                   class="btn btn-light">
+                    Open
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-warning shadow-lg p-3">
+                <h4>Performance</h4>
+                <p>Monitor completion and scores.</p>
+
+                <a href="/view-goals"
+                   class="btn btn-light">
+                    Open
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

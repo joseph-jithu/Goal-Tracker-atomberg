@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>View Goals</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>
+            Employee Goals Dashboard
+        </h2>
+
+        <a href="/employee/dashboard"
+           class="btn btn-dark">
+
+            Back Dashboard
+
+        </a>
+
+    </div>
+
+    <!-- FLASH MESSAGES -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <!-- GOALS TABLE -->
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Goal Title</th>
+                            <th>Thrust Area</th>
+                            <th>Target</th>
+                            <th>Actual Achievement</th>
+                            <th>Weightage</th>
+                            <th>Progress</th>
+                            <th>Score</th>
+                            <th>Status</th>
+                            <th>Approval</th>
+                            <th>Lock</th>
+                            <th>Quarter</th>
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for goal in goals %}
+
+                        {% set progress = calculate_progress(goal) | int %}
+
+                        <tr>
+
+                            <td>{{ goal.id }}</td>
+
+                            <td>
+
+                                {{ goal.title }}
+
+                                {% if goal.is_shared %}
+
+                                    <span class="badge bg-info">
+                                        Shared Goal
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>{{ goal.thrust_area }}</td>
+
+                            <td>{{ goal.target_value }}</td>
+
+                            <!-- INLINE ACHIEVEMENT UPDATE -->
+
+                            <td>
+
+                                <form action="/update-achievement/{{ goal.id }}"
+                                      method="POST"
+                                      class="d-flex gap-2">
+
+                                    <input type="number"
+                                           step="0.01"
+                                           name="actual_value"
+                                           value="{{ goal.actual_value }}"
+                                           class="form-control form-control-sm"
+                                           style="width:100px;"
+                                           required>
+
+                                    <input type="hidden"
+                                           name="quarter"
+                                           value="Q1">
+
+                                    <input type="hidden"
+                                           name="checkin_comment"
+                                           value="Updated from dashboard">
+
+                                    <button type="submit"
+                                            class="btn btn-success btn-sm">
+
+                                        Save
+
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                            <td>{{ goal.weightage }}%</td>
+
+                            <!-- PROGRESS -->
+
+                            <td width="220">
+
+                                <div class="progress">
+
+                                    <div class="progress-bar bg-success"
+                                         role="progressbar"
+                                         style="width: {{ progress }}%">
+
+                                        {{ progress }}%
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <!-- SCORE -->
+
+                            <td>
+
+                                {{ calculate_score(goal) }}%
+
+                            </td>
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                {% if get_status(goal) == "Completed" %}
+
+                                    <span class="badge bg-success">
+                                        Completed
+                                    </span>
+
+                                {% elif get_status(goal) == "On Track" %}
+
+                                    <span class="badge bg-primary">
+                                        On Track
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        At Risk
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- APPROVAL -->
+
+                            <td>
+
+                                {% if goal.approval_status == "Approved" %}
+
+                                    <span class="badge bg-success">
+                                        Approved
+                                    </span>
+
+                                {% elif goal.approval_status == "Rejected" %}
+
+                                    <span class="badge bg-danger">
+                                        Rejected
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Pending
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- LOCK -->
+
+                            <td>
+
+                                {% if goal.is_locked %}
+
+                                    <span class="badge bg-danger">
+                                        Locked
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-success">
+                                        Editable
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- QUARTER -->
+
+                            <td>
+
+                                {{ goal.quarter }}
+
+                            </td>
+
+                            <!-- ACTIONS -->
+
+                            <td>
+
+                                <div class="d-grid gap-2">
+
+                                    <a href="/update-achievement/{{ goal.id }}"
+                                       class="btn btn-primary btn-sm">
+
+                                        Detailed Update
+
+                                    </a>
+
+                                    {% if not goal.is_locked %}
+
+                                    <a href="/edit-goal/{{ goal.id }}"
+                                       class="btn btn-warning btn-sm">
+
+                                        Edit
+
+                                    </a>
+
+                                    {% endif %}
+
+                                    <a href="/delete-goal/{{ goal.id }}"
+                                       class="btn btn-danger btn-sm"
+                                       onclick="return confirm('Delete this goal?')">
+
+                                        Delete
+
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

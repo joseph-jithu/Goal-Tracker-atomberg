@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Manager Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+<body style="
+background: linear-gradient(to right, #f8f9fa, #eef2f7);
+min-height:100vh;
+">
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand fw-bold" href="#">
+            ATOMQUEST Goal Tracker
+        </a>
+
+        <div class="d-flex align-items-center">
+
+            <span class="text-white me-3">
+
+                Welcome,
+                {{ session['name'] }}
+
+            </span>
+
+            <a href="/logout"
+               class="btn btn-outline-light btn-sm">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<div class="container mt-5">
+
+    <!-- HERO -->
+
+    <div class="p-5 mb-4 bg-dark text-white rounded shadow">
+
+        <h1>
+            Manager Review Portal
+        </h1>
+
+        <p>
+            Review employee goals, approve targets,
+            and conduct quarterly check-ins.
+        </p>
+
+    </div>
+
+    <!-- FLASH -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <!-- CARDS -->
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+
+            <div class="card shadow border-0 h-100">
+
+                <div class="card-body text-center p-5">
+
+                    <i class="bi bi-clipboard-check fs-1 text-primary"></i>
+
+                    <h3 class="mt-3">
+                        Review Goals
+                    </h3>
+
+                    <p>
+                        Approve, reject, and manage employee goals.
+                    </p>
+
+                    <a href="/manager/goals"
+                       class="btn btn-primary">
+
+                        Open Dashboard
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card shadow border-0 h-100">
+
+                <div class="card-body text-center p-5">
+
+                    <i class="bi bi-people-fill fs-1 text-success"></i>
+
+                    <h3 class="mt-3">
+                        Shared Goals
+                    </h3>
+
+                    <p>
+                        Assign departmental KPIs across teams.
+                    </p>
+
+                    <a href="/create-shared-goal"
+                       class="btn btn-success">
+
+                        Create Shared Goal
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer class="text-center mt-5 mb-3 text-muted">
+
+        ATOMQUEST Hackathon 1.0 |
+        Goal Tracking Portal
+
+    </footer>
+
+</div>
+
+</body>
+
+</html>
