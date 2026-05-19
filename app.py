@@ -20,6 +20,32 @@ with app.app_context():
     db.create_all()
     print("Tables Created Successfully")
 
+    # 🔥 SEED DATA (ADD HERE)
+    if not User.query.filter_by(email="admin@test.com").first():
+        db.session.add(User(
+            name="Admin",
+            email="admin@test.com",
+            password="1234",
+            role="admin"
+        ))
+
+    if not User.query.filter_by(email="manager@test.com").first():
+        db.session.add(User(
+            name="Manager",
+            email="manager@test.com",
+            password="1234",
+            role="manager"
+        ))
+
+    if not User.query.filter_by(email="emp@test.com").first():
+        db.session.add(User(
+            name="Employee",
+            email="emp@test.com",
+            password="1234",
+            role="employee"
+        ))
+
+    db.session.commit()
 
 # ====================================================
 # ROLE-BASED ACCESS CONTROL
